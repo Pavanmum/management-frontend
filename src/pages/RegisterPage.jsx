@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import {  Link, useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -87,7 +87,7 @@ const RegisterPage = () => {
             )}
           </div>
 
-          <div className="mb-6">
+          <div className="mb-4">
             <label className="block text-gray-700 mb-2">Password</label>
             <input
               type="password"
@@ -101,6 +101,13 @@ const RegisterPage = () => {
               <p className="text-red-500 text-sm mt-1 ">{errors.password}</p>
             )}
           </div>
+          <span className='text-black text-sm mb-4  flex gap-1 flex-row' to="/login">
+          Already have an account? 
+          <Link className='text-blue-500 text-sm mb-4 block' to="/login">
+          Login
+          </Link>
+          </span>
+
 
           <button
             type="submit"
