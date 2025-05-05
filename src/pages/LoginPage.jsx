@@ -60,6 +60,7 @@ const LoginPage = () => {
                 
             } catch (error) {
                 console.error('Login failed:', error);
+                alert(error.response.data.message);
             }
 ;
     } else {
