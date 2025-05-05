@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
@@ -30,8 +30,8 @@ const LoginPage = () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/auth/profileDetails`, {
         withCredentials: true,
       });
-      console.log("User details:", res.data);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      navigate('/');
     } catch (error) {
       console.error("Error fetching user details:", error);
       alert("Failed to fetch user details. Please try again.");
@@ -52,10 +52,9 @@ const LoginPage = () => {
                 )
 
                 if(response.status === 200) {
-                    navigate('/')
+                   
                     alert('Logged in successfully')
                     fetchUserDetails();
-                    // localStorage.setItem("user", JSON.stringify(response.data.user));
 
                 }
                 
@@ -67,6 +66,14 @@ const LoginPage = () => {
       setErrors(validationErrors);
     }
   };
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      navigate('/');
+    }
+  }
+  , [navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

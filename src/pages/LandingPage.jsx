@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import User from '../components/User';
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState({ name: '', description: '', price: '' });
   const [editingId, setEditingId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigation = useNavigate();
 
   const fetchProducts = async () => {
     try{
@@ -111,6 +113,19 @@ const LandingPage = () => {
     setSelectedProduct(product);
   };
 
+  const handleLogout = async() => {
+    try {
+       await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`,"", {
+        withCredentials: true,
+      });
+        alert("Logged out successfully!");
+        localStorage.removeItem('user');
+        navigation('/login');
+    } catch (error) {
+      console.error("Error logging out:", error);
+      alert("Failed to log out. Please try again.");
+    }
+  }
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-5xl mx-auto bg-white p-6 rounded shadow">
@@ -125,10 +140,8 @@ const LandingPage = () => {
             </div>
             <div>
               <button className='bg-red-500 text-white px-2 py-1 rounded'
-              onClick={() => {
-                localStorage.removeItem('user');
-                window.location.href = '/login'; // Redirect to login page
-              }}
+              onClick={() => {handleLogout();}
+              }
               >
                 logout
               </button>
